@@ -1,5 +1,7 @@
 #include <stdint.h>
 
+// Struct Definitions
+
 typedef struct {
     volatile uint32_t MODER;
     volatile uint32_t OTYPER;
@@ -45,6 +47,8 @@ typedef struct {
     volatile uint32_t PRESC; // 2C
 } USARTType;
 
+// Memory address macros
+
 #define LPUART1 ((LPUARTType *) 0x40008000)
 #define USART3 ((USARTType *) 0x40004800)
 
@@ -69,6 +73,7 @@ typedef struct {
 #define NVIC_ISER2 *((volatile uint32_t*) 0xE000E108)
 
 
+// Initialize LPUART1 for communicating serially with the computer using USB.
 void LPUART1_initialization(void) {
     // Enable Clock
     RCC_APB1ENR1 |= (1 << 28);
@@ -122,6 +127,7 @@ void LPUART1_initialization(void) {
 }
 
 
+// Initialize USART3 for communicating with the HC-05 Bluetooth module.
 void USART3_initialization(void) {
 		// Enable Clocks
 	     RCC_AHB2ENR |= (1 << 1);               // Enable GPIOB Clock (Bit 1)
@@ -154,7 +160,7 @@ void USART3_initialization(void) {
 }
 
 
-
+// Read the data from the computer and forward it to HC-05
 void LPUART1_IRQHandler(void) {
     // Check if data is ready to be read
     if ((LPUART1->ISR & (1 << 5)) != 0) {
@@ -169,7 +175,7 @@ void LPUART1_IRQHandler(void) {
     }
 }
 
-
+// Read the data coming from the Bluetooth module and forward it to the computer.
 void USART3_IRQHandler(void) {
     // Check if data is ready to be read (RXNE flag, bit 5)
     if ((USART3->ISR & (1 << 5)) != 0) {
