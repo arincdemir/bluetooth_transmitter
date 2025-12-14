@@ -1,5 +1,18 @@
 #include <stdint.h>
 
+/*
+ * CmpE443 - PI 3: ADC,UART Implementation
+ * ------------------------------------------------
+ * Hardware for this device (PI 3):
+ * - Bluetooth Module -> USART3
+ * - USB Connection -> LPUART
+ *
+ * The device acts as a transmitter for our bluetooth commands.
+ * It transmits the data taken from the computer via USB, and sends it to the bluetooth module.
+ * It also does the vice versa.
+ */
+
+
 // Struct Definitions
 
 typedef struct {
